@@ -1,0 +1,75 @@
+{
+  "version": "3.0",
+  "strategy": "Semi-Supervised Learning",
+  "backbone": "Handcrafted Features (color + texture + spatial + ink density)",
+  "classifier": "XGBoost",
+  "feature_dim": 490,
+  "labeled_images": 129,
+  "pseudo_labeled": 0,
+  "total_training": 129,
+  "confidence_threshold": 0.85,
+  "metrics": {
+    "oof_accuracy": 36.43,
+    "oof_macro_f1": 0.3544,
+    "baseline_accuracy": 32.55,
+    "baseline_f1": 0.2829,
+    "improvement_over_v1v2": -7.8
+  },
+  "per_class": {
+    "High": {
+      "precision": 0.32,
+      "recall": 0.3721,
+      "f1": 0.3441,
+      "support": 43
+    },
+    "Low": {
+      "precision": 0.4,
+      "recall": 0.44,
+      "f1": 0.419,
+      "support": 50
+    },
+    "Medium": {
+      "precision": 0.375,
+      "recall": 0.25,
+      "f1": 0.3,
+      "support": 36
+    }
+  },
+  "confusion_matrix": [
+    [
+      16,
+      19,
+      8
+    ],
+    [
+      21,
+      22,
+      7
+    ],
+    [
+      13,
+      14,
+      9
+    ]
+  ],
+  "version_comparison": {
+    "V1_EfficientNet": {
+      "accuracy": 44.2,
+      "note": "CNN fine-tune, overfitting"
+    },
+    "V2_MobileNetV2": {
+      "accuracy": 44.2,
+      "note": "CNN fine-tune, same issue"
+    },
+    "V3_SemiSupervised": {
+      "accuracy": 36.43,
+      "note": "XGBoost + pseudo labels"
+    }
+  },
+  "pseudo_label_distribution": {
+    "High": 0,
+    "Low": 0,
+    "Medium": 0
+  },
+  "timestamp": "20260325_1816"
+}
