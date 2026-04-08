@@ -1,108 +1,67 @@
-<div align="center">
-  <img src="./data/docs/header.png" alt="BurnoutAI Header" width="100%">
-  
-  # **BurnoutAI (CliniCare v2)**
-  
-  **An AI & NLP Pipeline that detects physician burnout from handwritten prescriptions — automatically, before errors happen.**
+# 🏥 BurnoutAI (CliniCare v2)
 
-  [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
-  [![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg)](https://fastapi.tiangolo.com)
-  [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.3+-F7931E.svg)](https://scikit-learn.org/)
-  [![XGBoost](https://img.shields.io/badge/XGBoost-2.0+-blue.svg)](https://xgboost.readthedocs.io/)
-</div>
+An advanced multimodal artificial intelligence system designed to detect clinical burnout in healthcare professionals through the analysis of handwritten prescriptions and medical documents.
 
-<br>
+## 🌟 The V5 Multimodal Pipeline
+Currently running the **V5 Model (87.6% Accurate)**, completely transitioning away from legacy heuristics. The pipeline achieves state-of-the-art accuracy by combining three distinct feature extraction modalities:
+1. **Vision (PyTorch EfficientNet-B3):** Extracts 1,536 deep latent spatial features from the raw image.
+2. **NLP (EasyOCR):** Extracts 20 linguistic dimensions (medical shorthand frequency, word fragmentation, syntax deterioration).
+3. **Handcrafted Heuristics:** Maps 36 structural traits (ink density drops, baseline shifts).
 
-## 💡 The Problem: A Crisis Hiding in Plain Sight
-Existing burnout detection relies on surveys and self-reporting, which are delayed and subjective. By the time burnout is identified, it often already impacts clinical performance through medical errors, terseness, or reduced empathy.
-
-**The Insight:** Burnt-out doctors write differently. Motor control degrades under chronic stress. Shorter sentences. Shakier lines. More abbreviations. Less detail. *This is a signal — and our pipeline quantifies it.*
+Features are organically fused and dimension-reduced via **ANOVA F-value SelectKBest (128 features)** to train an aggressive SVM classifier alongside an interactive XAI (Explainable AI) engine.
 
 ---
 
-## 🚀 Features
+## 📂 Repository Structure
 
-* **End-to-End Pipeline:** Ingests document images, pre-processes them, and runs hybrid feature extraction (Visual + NLP).
-* **490-Dimensional Feature Extraction:** Analyzes handwriting degradation (ink density, stroke fragmentation, edge irregularity, writing pressure) alongside linguistic shortcuts via OCR.
-* **Explainable AI (XAI):** Doesn't just give a risk score. Explains *why* using model-extracted feature importances mapped to human-readable clinical findings.
-* **Standalone Hospital Dashboard:** A beautifully designed frontend for administrators to monitor hospital-wide risk distributions, sort doctors by risk, and identify critical interventions.
-* **Instant Export:** One-click CSV/TXT generation of physician risk reports equipped with AI-generated mitigation advice.
+The workspace is modularized for production deployment:
 
----
-
-## 🧠 Architecture & Tech Stack
-
-The architecture splits into a lightweight modern Vanilla JS frontend and a robust Python backend inference engine.
-
-### Core Stack
-* **Deep Learning / NLP:** PyTorch, HuggingFace Transformers, XGBoost, Scikit-Learn.
-* **OCR Engines:** EasyOCR (best on degraded text), Microsoft TrOCR, Tesseract.
-* **Backend:** FastAPI (serving the `/predict`, `/ocr`, and `/generate_report` endpoints).
-* **Frontend:** Vanilla HTML5, CSS3 (Custom Properties, Glassmorphism), JavaScript (ES6+).
+- `/frontend` → The robust React 19 + Vite UI. Powered by premium animations and components from Shadcn UI & ReactBits.
+- `/backend` → FastAPI Inference Engine holding `predict.py` and actively loading the `V5` PyTorch artifact dependencies from `/data/models`.
+- `/ml_pipeline` → Isolated ML training pipeline housing `train_model_v5.py` orchestrating MixUp augmentations and Consensus Tri-Training pseudo-labeling. 
+- `/notebooks` → Academic research literature, historical EDA, and Jupyter notebooks.
+- `/legacy_ui` → The old vanilla HTML/JS prototypes (preserved for reference).
 
 ---
 
-## 🛠️ Usage & Setup
+## 🛠️ Quick Start & Installation
 
-### 1. Clone the repository
+Ensure you have **Python 3.10+** and **Node.js** installed on your machine.
+
+### 1. Start the Backend API
+First, install the Python dependencies and launch the FastAPI server.
 ```bash
-git clone https://github.com/adarsh-gautam-sys/Doctor-burnout-detection-using-AI-and-NLP.git
-cd Doctor-burnout-detection-using-AI-and-NLP
-```
-
-### 2. Setup the Python Environment
-Ensure you have Python 3.11 installed. Create and activate a virtual environment:
-```bash
+# Create and activate a Virtual Environment
 python -m venv venv
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-```
+.\venv\Scripts\activate   # On Windows
+source venv/bin/activate  # On macOS/Linux
 
-Install the required dependencies:
-```bash
+# Install dependencies (Downloads PyTorch, OpenCV, EasyOCR, etc.)
 pip install -r requirements.txt
-```
 
-*(Note: `torch` installation may require specific CUDA versions depending on your hardware. Visit [PyTorch](https://pytorch.org/get-started/locally/) for specific commands).*
-
-### 3. Run the Backend API
-Start the FastAPI inference server containing the XGBoost model:
-```bash
+# Start the Backend Inference Engine
+cd backend
 python predict.py
 ```
-*The server will start on `http://localhost:8000`.*
+*(The backend runs at `http://localhost:8000` and automatically loads the GPU CUDA pipeline if available).*
 
-### 4. Run the Client Dashboard
-In a new terminal, serve the frontend:
+### 2. Start the Frontend Application
+In a separate terminal, start the React interface:
 ```bash
-python -m http.server 8080
+cd frontend
+
+# Install Node modules
+npm install
+
+# Start the Vite development server
+npm run dev
 ```
-Open your browser and navigate to `http://localhost:8080/index.html` to access the Live Demo and Dashboard.
+*(The UI runs at `http://localhost:5173`)*
 
 ---
 
-## 📊 Directory Structure
+## 🔬 Explainable AI (XAI)
+BurnoutAI isn't a black box. The backend generates interactive feature-weight explanations for every prediction, rendering dynamic insights to the frontend (e.g. *"High clinical shorthand density correlated heavily with extreme fatigue"*).
 
-```text
-├── data/                    # Contains required JSON feeds, dataset samples, and pickled models
-│   ├── dashboard_data.json  # Fetched by the standalone dashboard
-│   ├── dataset.json
-│   ├── models/              # Pretrained XGBoost/SVM model weights (.pkl)
-│   └── labeled/             # Image dataset (Real and Synthetic)
-├── index.html               # Main landing page & Live Demo with XAI Panel
-├── dashboard.html           # Hospital-wide statistics and reporting interface
-├── predict.py               # FastAPI backend with XAI feature extraction pipeline
-├── train_model.py           # Logic for training the XGBoost model on the 490 feature dimensions
-├── organize_dataset.py      # Utility for restructuring the raw labels/images
-├── Handwritten_data.ipynb   # Exploratory Data Analysis (EDA) on the prescription samples
-├── burnout_v3_semisupervised.ipynb # Complete semi-supervised model training notebook
-└── README.md
-```
-
-<br>
-
-<div align="center">
-  <sub>Built for clinical excellence. Powered by AI and NLP.</sub>
-</div>
+## 📄 License
+This system is part of an academic and private research initiative. All rights reserved by the respective authors.
