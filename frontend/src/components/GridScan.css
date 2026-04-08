@@ -1,0 +1,32 @@
+.gridscan {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.gridscan__preview {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.gridscan__video {
+  display: none;
+}
+
+.gridscan__badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--text-muted, #9ca3af);
+  backdrop-filter: blur(4px);
+}

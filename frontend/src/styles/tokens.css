@@ -1,0 +1,68 @@
+/* ═══════════════════════════════════════════════════════
+   DESIGN TOKENS — BurnoutAI
+   ═══════════════════════════════════════════════════════ */
+:root {
+  /* Colors */
+  --bg: #0A0E14;
+  --surface: #111827;
+  --surface-dim: #0D1117;
+  --surface-elevated: #1A1F2E;
+  --border: rgba(255,255,255,0.06);
+  --amber: #F59E0B;
+  --amber-dim: #D97706;
+  --amber-glow: rgba(245,158,11,0.15);
+  --blue: #38BDF8;
+  --red: #EF4444;
+  --red-dim: rgba(239,68,68,0.10);
+  --green: #22C55E;
+  --green-dim: rgba(34,197,94,0.10);
+  --text: #E2E8F0;
+  --text-body: #E2E8F0;
+  --text-muted: #64748B;
+  --text-dim: #475569;
+
+  /* Typography */
+  --font-display: 'DM Serif Display', serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-body: 'Source Serif 4', serif;
+  --font-ui: 'Inter', sans-serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 5rem;
+  --space-section: 7rem;
+
+  /* Aliases for global alignment system */
+  --sp-xs: 8px;
+  --sp-sm: 12px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-2xl: 48px;
+  --sp-3xl: 64px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  
+  /* Card Standardizations */
+  --card-radius: 8px;
+  --card-padding: var(--sp-xl);
+
+  /* Transitions */
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Shadows */
+  --shadow-glow: 0 0 40px rgba(245,158,11,0.08);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+}

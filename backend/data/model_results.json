@@ -1,0 +1,96 @@
+{
+  "version": "5.0",
+  "strategy": "Fine-Tuned Vision + NLP + Handcrafted + Tri-Training Pseudo-Labels",
+  "backbone": "EfficientNet-B3 (fine-tuned, last 2 blocks)",
+  "ocr_engine": "EasyOCR",
+  "classifier": "RBF_SVM_C50",
+  "feature_dim_raw": 1592,
+  "feature_dim_selected": 128,
+  "feature_breakdown": {
+    "vision_raw": 1536,
+    "vision_kept": 128,
+    "nlp_raw": 20,
+    "nlp_kept": 0,
+    "handcrafted_raw": 36,
+    "handcrafted_kept": 0
+  },
+  "labeled_images": 129,
+  "pseudo_labeled": 8,
+  "total_training": 137,
+  "tri_training": {
+    "total_unlabeled": 384,
+    "3way_agreement": 50,
+    "confident_kept": 8,
+    "confidence_threshold": 0.55
+  },
+  "metrics": {
+    "oof_accuracy": 87.6,
+    "oof_macro_f1": 0.8743
+  },
+  "per_class": {
+    "High": {
+      "precision": 0.881,
+      "recall": 0.8605,
+      "f1": 0.8706,
+      "support": 43
+    },
+    "Low": {
+      "precision": 0.8824,
+      "recall": 0.9,
+      "f1": 0.8911,
+      "support": 50
+    },
+    "Medium": {
+      "precision": 0.8611,
+      "recall": 0.8611,
+      "f1": 0.8611,
+      "support": 36
+    }
+  },
+  "confusion_matrix": [
+    [
+      37,
+      3,
+      3
+    ],
+    [
+      3,
+      45,
+      2
+    ],
+    [
+      2,
+      3,
+      31
+    ]
+  ],
+  "version_comparison": {
+    "V1_EfficientNet": {
+      "accuracy": 44.2,
+      "note": "CNN fine-tune, overfitting"
+    },
+    "V2_MobileNetV2": {
+      "accuracy": 44.2,
+      "note": "CNN fine-tune, same issue"
+    },
+    "V3_SemiSupervised": {
+      "accuracy": 36.43,
+      "note": "Handcrafted features + XGBoost"
+    },
+    "V4_Multimodal": {
+      "accuracy": 39.53,
+      "note": "Frozen EfficientNet + PCA + XGBoost"
+    },
+    "V5_FineTuned": {
+      "accuracy": 87.6,
+      "note": "RBF_SVM_C50 + Fine-Tuned Vision + Tri-Training"
+    }
+  },
+  "pseudo_label_distribution": {
+    "High": 3,
+    "Low": 5,
+    "Medium": 0
+  },
+  "timestamp": "20260408_0451",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU"
+}

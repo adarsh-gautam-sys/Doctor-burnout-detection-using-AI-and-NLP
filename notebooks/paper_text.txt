@@ -1,0 +1,333 @@
+IARJSET
+International Advanced Research Journal in Science, Engineering and Technology
+Impact Factor 8.066
+Peer-reviewed & Refereed journal
+Vol. 12, Issue 5, May 2025
+DOI: 10.17148/IARJSET.2025.125199
+© IARJSET
+This work is licensed under a Creative Commons Attribution 4.0 International License
+1176
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+Handwriting Recognition
+Sharath Kumar Y H1, Prashanth H S2, Sahana M V3, Santhosh K S4, Sujan Gowda S5
+Professor and HOD, Department of ISE, MITM, Mysore, VTU Belagavi, India1
+UG Students, Department of ISE, MITM, Mysore, VTU Belagavi, India2-5
+Abstract: Handwritten medical prescriptions, often written in illegible cursive or abbreviated forms by doctors, pose a
+significant challenge to accurate medication dispensing. Misinterpretation of such prescriptions can lead to medication
+errors, adversely affecting patient safety. The goal of this work is to create an intelligent system that can identify
+handwritten prescriptions using advanced deep learning techniques. The proposed tool allows users to upload an image
+of a prescription, which is then processed and converted into a structured, machine-readable format. The system
+accurately detects and interprets handwriting patterns frequently observed in medical prescriptions through the use of
+Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), and Long Short-Term Memory (LSTM)
+networks. By enhancing the readability of prescriptions, the system improves communication between healthcare
+providers, pharmacists, and patients. The successful implementation of this model has the potential to significantly reduce
+medication errors, improve prescription accessibility, and enhance overall efficiency in the healthcare delivery process.
+Keywords: Handwriting recognition, deep learning, CNN, optical character recognition (OCR)
+I.
+INTRODUCTION
+Handwriting is a powerful form of personal expression that allows individuals to communicate their thoughts in a distinct
+and often creative manner. In the medical field, this is particularly evident among doctors, whose handwritten
+prescriptions serve as a critical medium for conveying treatment plans. However, due to the demanding nature of their
+profession and time constraints, doctors often write hastily, leading to illegible handwriting. This presents a significant
+challenge in the healthcare system, where misinterpretation of prescriptions can have serious consequences.
+Illegible medical prescriptions can cause confusion for both patients and pharmacists, resulting in errors in medication
+administration. These errors can range from minor side effects, such as skin rashes, to severe health complications, and
+in extreme cases, even fatalities. Consequently, there is a critical need for a system that can accurately interpret
+handwritten prescriptions and reduce the risk of such preventable errors.
+Promising answers to this issue are provided by recent developments in deep learning and image processing. In
+handwriting identification tasks, methods including Long Short-Term Memory (LSTM) networks, Recurrent Neural
+Networks (RNN), and Convolutional Neural Networks (CNN) have demonstrated notable success. When integrated with
+Optical Character Recognition (OCR) and word segmentation techniques, these methods can be effectively employed to
+analyze, recognize, and convert handwritten prescriptions into clear, machine-readable digital formats.
+The central aim of this study is to design an effective and accessible system capable of scanning and interpreting
+handwritten medical prescriptions using advanced deep learning techniques. By transforming illegible handwriting into
+clear, structured digital content, the system seeks to improve the flow of information between doctors, pharmacists, and
+patients. In doing so, it aspires to minimize medication-related errors, streamline the prescription process, and enhance
+the overall safety and efficiency of healthcare delivery.
+II.
+PROBLEM STATEMENT
+Illegible handwritten medical prescriptions represent a significant challenge for both healthcare professionals and
+patients. Due to the high volume of consultations and time constraints, doctors frequently write prescriptions with unclear
+handwriting, making it challenging to accurately identify the prescribed medications. This issue can lead to medication
+errors, ranging from minor side effects to severe health complications, and, in extreme cases, even death. Consequently,
+there is a need for a reliable system capable of recognizing and converting handwritten prescriptions into digital text,
+ensuring that patients receive the correct medication as prescribed.
+IARJSET
+International Advanced Research Journal in Science, Engineering and Technology
+Impact Factor 8.066
+Peer-reviewed & Refereed journal
+Vol. 12, Issue 5, May 2025
+DOI: 10.17148/IARJSET.2025.125199
+© IARJSET
+This work is licensed under a Creative Commons Attribution 4.0 International License
+1177
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+III.
+PROPOSED SYSTEM
+The proposed deduction model will be developed using advanced deep learning techniques, including Convolutional
+Neural Networks (CNNs), Recurrent Neural Networks (RNNs), and Long Short-Term Memory (LSTM) networks, to
+effectively train the system for handwriting recognition. Additionally, fuzzy search algorithms will be incorporated to
+manage potential inaccuracies or ambiguities in the handwritten input. The final output will be presented to the user in a
+well-organized and structured digital format.
+The image preprocessing phase aims to enhance the quality of prescription images by performing operations such as
+noise removal, resizing, contrast adjustment, and binarization, thereby improving the clarity of handwritten text. Word
+segmentation further divides the image into individual words or characters, increasing the accuracy of recognition. The
+resulting output is a clear, structured, and digital version of the prescription, displaying the identified medication names
+for correct interpretation by pharmacists or end users.
+A. Model Architecture
+The proposed system employs a hybrid deep learning architecture designed to accurately interpret handwritten medical
+prescriptions. It combines Convolutional Neural Networks (CNNs) for spatial feature extraction, Recurrent Neural
+Networks (RNNs) for sequence modeling, and Long Short-Term Memory (LSTM) units to handle long-range
+dependencies in sequential data. This combination enables the model to effectively capture both the structural and
+contextual elements of handwritten text. Additionally, to avoid the requirement for manual segmentation, Connectionist
+Temporal Classification (CTC) is used as a loss function to match predicted sequences with the handwritten text. To
+improve the dependability of the extracted output, fuzzy search techniques are also incorporated into the post-processing
+pipeline to address unclear or partially recognized phrases and fix small recognition errors. This is especially useful in
+medical prescriptions where abbreviations, non-standard writing, and inconsistent formatting are common.
+B. Training and Implementation
+The model is trained on a curated dataset consisting of prescription images collected from publicly available handwriting
+datasets for generalization. In order to replicate the variety found in handwriting in the actual world, the training pipeline
+incorporates data augmentation techniques including rotation, scaling, and contrast correction. The image preprocessing
+module enhances the input quality through noise reduction, grayscale conversion, contrast normalization, and adaptive
+thresholding. After preprocessing, word or character segmentation is performed to isolate individual tokens for improved
+recognition accuracy. The extracted features from CNN layers are passed into the RNN-LSTM layers for sequence
+learning and are finally decoded using CTC to produce the textual output.
+C. Deployment
+The system is designed for web-based deployment with a user-friendly interface that allows users
+patients, pharmacists,
+or healthcare staff
+to upload images of handwritten prescriptions. The backend model processes the image and returns
+a structured digital text output displaying recognized drug names and relevant details. The deployment leverages cloud
+infrastructure for storage and computation, enabling real-time processing while ensuring scalability. The system can be
+accessed across platforms including mobile and desktop environments, making it widely accessible.
+D. Scalability
+The architecture is modular, allowing for future expansion to recognize additional languages, regional prescription
+formats, or integrate with electronic health records (EHR) systems. Scalable cloud services are used to accommodate
+increasing user loads and support batch processing of prescriptions when needed. The use of pre-trained models and
+transfer learning also ensures that the system can be efficiently adapted to new datasets or domains with minimal
+retraining, further enhancing its scalability.
+E. Future Enhancements
+Future work will focus on incorporating transformer-based models, such as Vision Transformers (ViT) or BERT-based
+architectures, to improve recognition accuracy and contextual understanding. Integration with medical knowledge bases
+could enable real-time validation of extracted prescriptions, flagging potential errors or dangerous drug interactions.
+Additionally, Explainable AI (XAI) techniques such as Grad-CAM or SHAP will be explored to provide visual
+justifications for model decisions, fostering trust and transparency in clinical applications. Expansion of the training
+dataset and inclusion of more diverse handwriting samples will also be prioritized to further reduce recognition errors.
+IARJSET
+International Advanced Research Journal in Science, Engineering and Technology
+Impact Factor 8.066
+Peer-reviewed & Refereed journal
+Vol. 12, Issue 5, May 2025
+DOI: 10.17148/IARJSET.2025.125199
+© IARJSET
+This work is licensed under a Creative Commons Attribution 4.0 International License
+1178
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+IV.
+LITERATURE SURVEY
+[1] G, Maheswari & R, Ramya & S, Babitha & R, Sriram & M, Jennis & P, I. (2024). Interpreting Doctors' Notes
+Using Handwriting Recognition and Deep Learning Techniques.
+In this paper a hybrid deep learning model to interpret doctors' handwritten notes by integrating Optical Character
+Recognition (OCR), Multi-Dimensional Recurrent Neural Networks (MDRNN), and Connectionist Temporal
+Classification (CTC). The system follows a structured pipeline of preprocessing (including image enhancement,
+thresholding, and segmentation), feature extraction, training, and evaluation. OCR digitizes scanned prescriptions,
+MDRNN models sequential data, and CTC aligns predictions with actual text to improve recognition accuracy. Trained
+on a prescription dataset, the model achieved high accuracy, though it faces challenges with highly cursive handwriting,
+inconsistent spacing, and poor image quality. Future improvements may include expanding the dataset, enhancing
+preprocessing, and incorporating transformer-based architectures.
+This paper offers a hybrid handwriting recognition model combining Convolutional Neural Networks (CNNs) for feature
+extraction and Bidirectional Long Short-Term Memory (BLSTM) networks for sequence modeling, with a Connectionist
+Temporal Classification (CTC) loss function to align predictions without manual segmentation. Their pipeline includes
+data collection, preprocessing (resizing, grayscale conversion, normalization, binarization), morphology-based
+segmentation, training, and evaluation. Using a dataset of 3,000 prescription images (15,290 handwritten lines) from
+Nepali hospitals, the model achieved 84.26% word-level and 87.63% character-level accuracy. Despite strong
+performance, challenges remain with illegible characters, handwriting variability, medical abbreviations, and high
+computational requirements. Future work focuses on expanding the dataset, refining preprocessing, and exploring
+advanced recognition techniques.
+-LSTM Based Journey into
+Khan et al. [3] proposed a hybrid handwriting recognition model combining CNNs for spatial feature extraction and Bi-
+LSTMs for capturing bidirectional contextual dependencies, with a CTC loss function for alignment and a SoftMax layer
+for character prediction. Using the IAM Handwriting Database, the methodology includes preprocessing (normalization,
+binarization, aspect ratio preservation), followed by training and evaluation on a 90-5-5 split. The model achieved 98.40%
+accuracy, surpassing traditional OCR systems. Challenges include distorted handwriting, overlapping characters, style
+variability, and high computational demands. Future work aims to leverage larger datasets, enhanced preprocessing, and
+transformer-based architectures.
+[4] J. Sunil Reddy et al. "Multimodal Deep Learning with XAI for Transparent and Accurate Doctor Prescription
+Recognition"
+Sunil Reddy et al. [4] proposed a multimodal deep learning framework for prescription recognition, combining pre-
+trained CNNs (VGG16, AlexNet, MobileNetV2) for feature extraction and LSTMs for capturing spatial-temporal
+dependencies, with Explainable AI techniques like SHAP and Grad-CAM to enhance interpretability. The pipeline
+includes preprocessing (grayscale conversion, histogram equalization, blurring, edge detection), Tesseract OCR for text
+extraction, and CTC loss for sequence alignment. Trained with an 80-20 split using the Adam optimizer, the model
+achieved over 90% classification accuracy. Challenges include varied handwriting, poor image quality, and complex
+structures, with future work aimed at improving OCR, expanding datasets, and exploring transformer models.
+[5] P. Sharma, I. Miglani and L. Sharma, "DocAssist: Signature Perception System using Deep Learning"
+The DocAssist system architecture comprises data collection using the EMNIST dataset (112,800 training and 18,800
+test images across 47 classes), preprocessing (grayscale conversion, noise reduction, normalization), and CNN-
+basedtraining with ReLU and softmax over 20 epochs. Evaluation involves analyzing accuracy and loss metrics, with the
+model achieving 81.83% accuracy and a loss of 0.59. Images are preprocessed to enhance contrast and reduce noise, and
+a mobile app is proposed for healthcare integration. Limitations include the EMNIST dataset's lack of medical
+handwriting complexity, moderate accuracy, and challenges in real-world deployment, such as EHR integration,
+regulatory compliance, and handwriting variability.
+IARJSET
+International Advanced Research Journal in Science, Engineering and Technology
+Impact Factor 8.066
+Peer-reviewed & Refereed journal
+Vol. 12, Issue 5, May 2025
+DOI: 10.17148/IARJSET.2025.125199
+© IARJSET
+This work is licensed under a Creative Commons Attribution 4.0 International License
+1179
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+V.
+BLOCK DIAGRAM
+The proposed system for accurate interpretation of handwritten medical prescriptions follows a modular architecture, as
+depicted in the block diagram.
+A. Image Acquisition
+The handwritten prescription is captured as a digital image through methods such as scanning or digital photography.
+Alternatively, you may submit an already-existing picture of the prescription. The raw data for further processing is
+provided by this first step.
+B. Preprocessing
+The purpose of this block is to improve the acquired image's quality and get it ready for feature extraction. This entails a
+number of procedures, such as character segmentation to identify individual characters, line and word segmentation to
+isolate textual units, normalization to standardize character size and alignment, and binarization to separate text from the
+backdrop. Together, these procedures lessen handwriting variability and noise, enabling more reliable feature extraction.
+C. Feature Extraction
+This step is essential for turning the preprocessed image into a collection of measurable traits that the recognition model
+can use. Conventional methods used here include extracting transform-based features from DCT or wavelet transforms,
+statistical features like pixel density and moment values, and structural features like stroke characteristics and topological
+information. The input representation for the following recognition stage is these extracted features.
+D. Hybrid Deep Learning Architecture Block.
+This architecture efficiently interprets the details of handwritten medical language through employing the advantages of
+several deep learning techniques.. Convolutional Neural Networks (CNNs) are employed for their proficiency in
+extracting spatial features directly from the image data, capturing the visual patterns of individual characters. The output
+of the CNN layers is then fed into Recurrent Neural Networks (RNNs), specifically utilizing Long Short-Term Memory
+(LSTM) units, to model the sequential nature of handwriting and capture long-range contextual dependencies between
+characters and words. Furthermore, Connectionist Temporal Classification (CTC) is applied as the loss function during
+training. CTC enables end-to-end learning by directly mapping the input image sequence to the output text sequence
+without requiring explicit character-level alignment, thus handling the variability in writing styles and character spacing.
+E. Output
+This block represents the culmination of the recognition process. The probability distributions generated by the hybrid
+deep learning architecture are decoded to produce the most likely textual interpretation of the handwritten prescription.
+This digital text output can then be used for various downstream applications, such as electronic health record updates,
+pharmacy dispensing systems, and prescription verification. The modular design of this system allows for potential
+enhancements and replacements of individual blocks as advancements in image processing and deep learning techniques
+emerge.
+IARJSET
+International Advanced Research Journal in Science, Engineering and Technology
+Impact Factor 8.066
+Peer-reviewed & Refereed journal
+Vol. 12, Issue 5, May 2025
+DOI: 10.17148/IARJSET.2025.125199
+© IARJSET
+This work is licensed under a Creative Commons Attribution 4.0 International License
+1180
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+VI.
+RESULT
+To evaluate the effectiveness of the proposed Doctor's Handwriting Recognition System, a real-world prescription image
+was uploaded via the web-based interface (Fig. 1). The system performed a series of preprocessing operations including
+noise reduction, contrast adjustment, and binarization to enhance legibility of the handwritten content. Using the
+integrated deep learning model combining Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN),
+and Long Short-Term Memory (LSTM) layers, the system recognized and transcribed the handwritten text present in the
+prescription. The fuzzy string matching algorithm further refined the output by correcting ambiguities due to partial or
+unclear character formation. As depicted in Fig. 2, the processed output is displayed in a structured digital format, clearly
+listing the medicine names and relevant instructions.
+Fig 1. Web interface to upload prescription
+Fig 2. Processed output
+The recognition speed remained optimal, with average processing times below 5 seconds per image, making the solution
+viable for real-time deployment in pharmacies and healthcare settings.
+VII.
+CONCLUSION
+streamlining healthcare communication. This study suggested an effective framework based on deep learning that
+IARJSET
+International Advanced Research Journal in Science, Engineering and Technology
+Impact Factor 8.066
+Peer-reviewed & Refereed journal
+Vol. 12, Issue 5, May 2025
+DOI: 10.17148/IARJSET.2025.125199
+© IARJSET
+This work is licensed under a Creative Commons Attribution 4.0 International License
+1181
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+ISSN (O) 2393-8021, ISSN (P) 2394-1588
+incorporates Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), Long Short-Term Memory
+(LSTM) models, and Optical Character Recognition (OCR) techniques to effectively interpret and digitize illegible
+handwritten prescriptions. Through structured preprocessing, image enhancement, and sequence modeling, the system
+achieves high accuracy in translating handwritten text into clear digital output.
+The suggested system offers better readability, fewer medication errors, and greater accessibility for both patients and
+pharmacists when compared to current methods. Additionally, the model's capacity to manage partially ambiguous inputs
+is improved by the use of fuzzy search techniques, which makes it ideal for real-world situations. Even though the
+system's present drawbacks include issues with extremely cursive writing and low-quality images, future advancements
+utilizing transformer-based models and larger datasets can further maximize its functionality.
+REFERENCES
+[1]. G. Maheswari, R. Ramya, S. Babitha, R. Sriram, J. M, and P. RamPrasad, "Interpreting Doctors' Notes Using
+Handwriting Recognition and Deep Learning Techniques," 2024 Ninth International Conference on Science
+Technology Engineering and Mathematics (ICONSTEM), 2024, DOI: 10.1109/ICONSTEM60960.2024.10568799.
+[2].
+2024 IEEE
+International Conference on Artificial Intelligence in Engineering and Technology (IICAIET), 2024, pp. 466-470,
+https://ieeexplore.ieee.org/document/10730188doi: 10.1109/IICAIET62352.2024.10730188.
+[3]. Khan, M. A., Sharma, D., Arif, H., & Singh, V. (2024). Decoding the Script: A Bi-LSTM Based Journey into Doctor's
+Handwriting for Precise Prescription Understanding. 2024 International Conference on Smart Devices (ICSD), DOI:
+10.1109/ICSD60021.2024.10751228.
+[4]. J. Sunil Reddy, T. S. Norbu, P. Kumar, P. V. Ajjanakatt, R. Harsha, and U. Ananthanagu, "Multimodal Deep
+Learning with XAI for Transparent and Accurate Doctor Prescription Recognition," 2024 International Conference
+on Emerging Research in Computational Science (ICERCS), 2024, DOI: 10.1109/ICERCS63125.2024.10895660.
+[5]. P. Sharma, I. Miglani and L. Sharma, "DocAssist: Signature Perception System using Deep Learning," 2024
+International Conference on Computational Intelligence and Computing Applications (ICCICA), Samalkha, India,
+2024, pp. 317-322, doi: 10.1109/ICCICA60014.2024.10585152.
+[6]. Nithin Kumar, Amrutha Chikkmath, Gouthami Yadav B R, Hema R Naidu, Diya Acharya. "Interpreting Doctor
+notes using Handwriting Recognition and Deep Learning Techniques: A Survey." Vidyavardhaka College of
+Engineering, Mysuru, Karnataka, India. IEEE Xplore. 2023 International Conference on Advances in Electronics,
+Communication,
+Computing
+and
+Intelligent
+Information
+Systems
+(ICAECIS).
+DOI:
+10.1109/ICAECIS58353.2023.10170398.
+[7]. M. H. P. Reddy, G. S. Raj, K. R. Reddy and M. A. Jabbar, "Doctor Handwritten Recognition and Alternate Medicine
+Recommendation using Deep Learning," 2023 IEEE Technology & Engineering Management Conference - Asia
+Pacific
+(TEMSCON-ASPAC),
+Bengaluru,
+India,
+2023,
+pp.
+1-6,
+doi:
+10.1109/TEMSCON-
+ASPAC59527.2023.10531476.
+[8].
+Deep Learning-
+2022 IEEE 13th
+Control and System Graduate Research Colloquium (ICSGRC), Shah Alam, Malaysia, 2022, pp. 198-203, doi:
+10.1109/ICSGRC55096.2022.9845144.
+[9]. E. Hassan, H. Tarek, M. Hazem, S. Bahnacy, L. Shaheen and W. H. Elashmwai, "Medical Prescription Recognition
+using Machine Learning," 2021 IEEE 11th Annual Computing and Communication Workshop and Conference
+(CCWC), NV, USA, 2021, pp. 0973-0979, doi: 10.1109/CCWC51732.2021.9376141.
+[10].
+S. Tabassum et al
+and SRP Data Augmentation," 2021 IEEE Technology & Engineering Management Conference - Europe
+(TEMSCON-EUR), Dubrovnik, Croatia, 2021, pp. 1-6, doi: 10.1109/TEMSCON-EUR52034.2021.9488622.
+[11].
+U. Shaw, Tania, R. Mamgai and I. Malhotra, "Medical Handwritten Prescription Recognition and Information
+Retrieval using Neural Network," 2021 6th International Conference on Signal Processing, Computing and Control
+(ISPCC), Solan, India, 2021, pp. 46-50, doi: 10.1109/ISPCC53510.2021.9609390.
+[12].
+L. J. Fajardo et al., "Doctor's Cursive Handwriting Recognition System Using Deep Learning," 2019 IEEE 11th
+International Conference on Humanoid, Nanotechnology, Information Technology, Communication and Control,
+Environment, and Management (HNICEM), 2019, pp. 1-6, doi:10.1109/HNICEM48295.2019.9073521. IJAR
+Scientific Research and Technology+2
+[13].
+Roger Achkar, Khodor Ghayad, Rayan Haidar, Sawsan Saleh, and Rana Al Hajj, "Medical Handwritten
+Prescription Recognition Using CRNN," 2019 IEEE International Conference on Image Processing (ICIP), pp. 978-
+1-7281-1374-6/19, DOI: 10.1109/ICIP.2019.

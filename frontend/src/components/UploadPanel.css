@@ -1,0 +1,28 @@
+.upload-zone {
+  border: 2px dashed rgba(245,158,11,0.35);
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s;
+  margin-bottom: 2rem;
+}
+.upload-zone:hover,
+.upload-zone--active {
+  border-color: var(--amber);
+  background: rgba(245,158,11,0.03);
+}
+
+.upload-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  opacity: 0.5;
+  color: var(--text-muted);
+}
+
+.upload-text {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
