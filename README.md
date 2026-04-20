@@ -1,4 +1,4 @@
-# 🏥 BurnoutAI (CliniCare v2)
+# BurnoutAI (CliniCare v2)
 
 An advanced multimodal artificial intelligence system designed to detect clinical burnout in healthcare professionals through the analysis of handwritten prescriptions and medical documents.
 
