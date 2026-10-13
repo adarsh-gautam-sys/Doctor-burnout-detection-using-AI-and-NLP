@@ -1,6 +1,6 @@
 # BurnoutAI (CliniCare v2) - Technical Report & V5 Architecture
 
-This document provides a highly detailed breakdown of the BurnoutAI project, specifically focusing on the advanced **V5 Multimodal Pipeline** that successfully identifies signs of clinical burnout and fatigue directly from physicians' handwritten prescriptions.
+This document provides a highly detailed breakdown of the BurnoutAI project, specifically focusing on the advanced **V5 Multimodal Pipeline** that successfully identifies signs of clinical burnout and fatigue directly from physicians' handwritten prescriptions, as well as its production cloud infrastructure, security audit, and deployment architecture.
 
 ---
 
@@ -82,3 +82,63 @@ A robust upload element supporting instant assessment from handwritten clinic no
 ### Screen Recording Preview
 *(For a complete visual inspection, view the browser recording WebP natively captured during the session).*
 ![Browser UI Recording](file:///C:/Users/conta.LAPTOP-IR41J1UC/.gemini/antigravity/brain/63c5b4d6-854f-4b03-80e3-36ee0b704321/ui_design_screenshots_1775748816063.webp)
+
+---
+
+## 6. Cloud Infrastructure & Production Deployment Architecture
+
+To ensure enterprise-grade availability, low latency, and zero idle expenditure, BurnoutAI is deployed in a decoupled serverless architecture across **Google Cloud Run** and **Firebase Hosting**.
+
+```
+Internet Clients / Clinicians
+             │
+             ├──► [Firebase Hosting]  clinicare-frontend
+             │         • Global Edge CDN delivery of compiled React 19 SPA
+             │         • Automated SSL termination and HTTP/2 + HTTP/3 support
+             │         • Domain: https://clinicareai.web.app
+             │         • Alternative: https://clinicareai.firebaseapp.com
+             │
+             └──► [Google Cloud Run]  clinicare-backend
+                       • Fully managed containerized FastAPI inference microservice
+                       • Scales automatically from 0 to N instances ($0 compute when idle)
+                       • Memory: 4 GiB | vCPU: 2 | Timeout: 300s | Concurrency: 4
+                       • Region: us-central1
+                       • Production API: https://clinicare-backend-587520969884.us-central1.run.app
+```
+
+### Production Endpoints Summary
+
+| Layer | Component | Production URL | Technology Stack |
+|:---|:---|:---|:---|
+| **Frontend** | Clinical Web Interface | `https://clinicareai.web.app` | React 19, Vite, Tailwind CSS, Lucide |
+| **Frontend** | Secondary Domain | `https://clinicareai.firebaseapp.com` | Firebase Hosting Edge CDN |
+| **Backend** | API Health Probe | `https://clinicare-backend-587520969884.us-central1.run.app/health` | FastAPI, Uvicorn, Python 3.11 |
+| **Backend** | Inference Service | `https://clinicare-backend-587520969884.us-central1.run.app/predict` | PyTorch (CPU), EasyOCR, SelectKBest, SVM |
+| **Registry** | Docker Container | `us-central1-docker.pkg.dev/clinicareai/clinicare/backend:latest` | Google Artifact Registry |
+
+---
+
+## 7. Security Audit, Cost Prevention & System Hardening
+
+A comprehensive security audit and cost-engineering review was performed across the codebase prior to production deployment.
+
+### A) Vulnerability & Hardening Matrix
+
+| Risk Category | Severity | Root Cause | Engineering Remediation | Verified Status |
+|:---|:---:|:---|:---|:---:|
+| **Model Weight Disclosure** | **HIGH** | `app.mount("/data", StaticFiles(...))` previously exposed `data/models/` publicly over HTTP. | Wildcard static mount was completely removed. Replaced with dedicated, read-only JSON endpoints (`/data/dashboard_data.json`, `/data/dataset.json`, `/data/confusion_matrix.png`). Direct HTTP requests for `.pth` or `.pkl` files return `404 Not Found`. | **RESOLVED & TESTED** ✅ |
+| **Denial of Service (DoS / OOM)** | **MEDIUM** | `await file.read()` had no payload size limit, allowing arbitrarily large files to exhaust Cloud Run memory. | Implemented strict 15 MB payload ceiling (`MAX_UPLOAD_SIZE = 15MB`), zero-byte check, and 50 MP PIL ceiling (`Image.MAX_IMAGE_PIXELS = 50_000_000`) to block decompression bombs. | **RESOLVED & TESTED** ✅ |
+| **Permissive CORS Policy** | **MEDIUM** | `allow_origins=["*"]` with credentials enabled allowed cross-origin request forgery. | Restricted origins to `https://clinicareai.web.app`, `https://clinicareai.firebaseapp.com`, and authorized local ports, with support for an `ALLOWED_ORIGINS` environment variable. | **RESOLVED & TESTED** ✅ |
+| **Missing Security Headers** | **LOW** | Responses lacked browser-level defensive headers. | Implemented FastAPI middleware setting `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, and `X-XSS-Protection: 1; mode=block`. | **RESOLVED & TESTED** ✅ |
+| **Filename / Path Traversal** | **LOW** | Raw `file.filename` was reflected directly in JSON responses. | Sanitized uploaded filenames using `Path(file.filename).name.strip()` to strip relative path characters. | **RESOLVED & TESTED** ✅ |
+
+### B) Cloud Cost Prevention Engineering
+
+1. **Build Context Upload Slimming (98% Reduction):**
+   - *Problem:* Initial Cloud Build submissions lacked a `.gcloudignore` and had an incomplete `.gitignore`, resulting in the CLI packaging local `.venv/` and `venv/` directories (38,243 files, **2.2 GiB**), causing slow uploads and Cloud Storage costs.
+   - *Solution:* Implemented strict `.gcloudignore` and `.dockerignore` files excluding all virtualenvs, node_modules, and raw image datasets. Scoped build submission to `backend/`, reducing the uploaded tarball to **43.6 MiB (16 files)** — a **98% reduction** uploading in ~3 seconds.
+2. **Container Image Optimization (CUDA Elimination):**
+   - *Problem:* Standard installation of `easyocr` and `timm` pulled default CUDA PyTorch packages from PyPI, bundling 2.5 GB of unused NVIDIA libraries (`cublas`, `cudnn`, `nccl`, `triton`).
+   - *Solution:* Reordered the `Dockerfile` to install CPU-only PyTorch (`torch==2.6.0+cpu`, `torchvision==0.21.0+cpu`) from the official PyTorch wheel repository *before* installing application requirements. This satisfied the torch dependency up-front, eliminating 2.5 GB of deadweight CUDA binaries and compressing the final container image to **1.07 GB** (down from 5.5+ GB).
+3. **Scale-to-Zero Compute:**
+   - Cloud Run is configured with `--min-instances 0`, ensuring container instances spin down completely during periods of inactivity, resulting in **$0 compute bill** while idle.
