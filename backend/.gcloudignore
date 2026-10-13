@@ -1,0 +1,26 @@
+# backend/.gcloudignore
+.gcloudignore
+.dockerignore
+__pycache__/
+*.py[cod]
+*$py.class
+test_*.py
+update_dashboard_labels.py
+
+# Heavy training datasets not needed in inference container
+data/labeled/
+data/unlabeled/
+
+# Old model iterations
+data/models/burnout_v3_*
+data/models/burnout_v4_*
+data/models/best_model.pkl
+data/models/all_model_results.csv
+data/models/results.csv
+
+# Secrets
+.env*
+*.pem
+*.key
+*service-account*.json
+*credentials*.json

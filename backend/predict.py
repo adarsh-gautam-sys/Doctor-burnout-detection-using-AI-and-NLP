@@ -389,23 +389,74 @@ def generate_v5_explanation(prediction, probabilities, ocr_text, handcrafted_fea
     }
 
 
+# ── Security & Limits ──────────────────────────────────────
+MAX_UPLOAD_SIZE = 15 * 1024 * 1024  # 15 MB payload cap to prevent OOM
+Image.MAX_IMAGE_PIXELS = 50_000_000 # Prevent decompression bomb attacks
+
 # ═══════════════════════════════════════════════════════════
 # FastAPI App
 # ═══════════════════════════════════════════════════════════
 
 app = FastAPI(title="BurnoutAI Prediction API", version="5.0")
 
+# Security Headers Middleware
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
+
+# Audited CORS configuration
+cors_origins_env = os.getenv("ALLOWED_ORIGINS", "")
+if cors_origins_env.strip():
+    allowed_origins = [o.strip() for o in cors_origins_env.split(",") if o.strip()]
+else:
+    allowed_origins = [
+        "https://clinicareai.web.app",
+        "https://clinicareai.firebaseapp.com",
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+    ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
+    allow_origin_regex=r"https:\/\/clinicareai.*\.web\.app|https:\/\/clinicareai.*\.firebaseapp\.com",
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
-# Serve static files (images, etc.) from data/
-if (BASE_DIR / 'data').exists():
-    app.mount("/data", StaticFiles(directory=str(BASE_DIR / 'data')), name="data")
+# ── Safe Static Endpoints (replaces insecure directory mount) ──
+# This strictly exposes ONLY dashboard & dataset files, never models or training sets
+@app.get("/data/dashboard_data.json")
+async def get_dashboard_data():
+    if DASHBOARD_PATH.exists():
+        with open(DASHBOARD_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    raise HTTPException(404, "dashboard_data.json not found")
+
+@app.get("/data/dataset.json")
+async def get_dataset_data():
+    dataset_path = BASE_DIR / "data" / "dataset.json"
+    if dataset_path.exists():
+        with open(dataset_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    raise HTTPException(404, "dataset.json not found")
+
+@app.get("/data/confusion_matrix.png")
+async def get_confusion_matrix():
+    cm_path = BASE_DIR / "data" / "confusion_matrix.png"
+    if cm_path.exists():
+        return FileResponse(cm_path, media_type="image/png")
+    raise HTTPException(404, "confusion_matrix.png not found")
 
 # ── Global State ──────────────────────────────────────────
 backbone_model = None
@@ -609,13 +660,21 @@ async def get_results():
 async def _predict_image(file: UploadFile):
     """Core prediction logic — uses V5 multimodal or V3 fallback."""
     if classifier is None:
-        raise HTTPException(503, "Model not loaded. Run train_model_v5.py first.")
+        raise HTTPException(503, "Model not loaded. System is initializing.")
 
     if not file.filename:
         raise HTTPException(400, "No file uploaded")
 
-    ext = Path(file.filename).suffix.lower()
-    contents = await file.read()
+    # Sanitize filename (prevent path traversal or header injection)
+    safe_filename = Path(file.filename).name.strip()
+    ext = Path(safe_filename).suffix.lower()
+
+    # Read with size cap to protect Cloud Run container memory from OOM DoS
+    contents = await file.read(MAX_UPLOAD_SIZE + 1)
+    if len(contents) > MAX_UPLOAD_SIZE:
+        raise HTTPException(413, "Payload too large. Maximum supported file size is 15 MB.")
+    if len(contents) == 0:
+        raise HTTPException(400, "Empty file uploaded.")
 
     # ── Text file ─────────────────────────────────────────
     if ext in ['.txt', '.csv', '.text']:
@@ -650,7 +709,7 @@ async def _predict_image(file: UploadFile):
             "confidence": round(probs[pred] * 100, 1),
             "probabilities": probs,
             "input_type": "text",
-            "filename": file.filename
+            "filename": safe_filename
         }
 
     # ── Image file ────────────────────────────────────────
@@ -719,7 +778,7 @@ async def _predict_image(file: UploadFile):
             "confidence": round(float(proba.max()) * 100, 1),
             "probabilities": probs,
             "input_type": "image",
-            "filename": file.filename,
+            "filename": safe_filename,
             "model_version": "V5",
             "explanation": explanation
         }
@@ -743,7 +802,7 @@ async def _predict_image(file: UploadFile):
         "confidence": round(float(proba.max()) * 100, 1),
         "probabilities": probs,
         "input_type": "image",
-        "filename": file.filename,
+        "filename": safe_filename,
         "model_version": "V3",
         "explanation": {
             "summary": f"{pred_label} burnout level detected.",

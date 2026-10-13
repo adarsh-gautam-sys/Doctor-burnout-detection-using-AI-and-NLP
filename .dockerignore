@@ -1,0 +1,62 @@
+# Root .dockerignore
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+Lib/
+Scripts/
+pyvenv.cfg
+
+# Python cache & build
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+
+# Frontend
+frontend/
+node_modules/
+**/node_modules/
+
+# Legacy and development pipelines
+ml_pipeline/
+notebooks/
+legacy_ui/
+
+# Git and IDE
+.git/
+.gitignore
+.gcloudignore
+.vscode/
+.idea/
+
+# Documents & scripts
+*.docx
+*.md
+generate_word.py
+cloudbuild.yaml
+
+# Backend exclusions
+backend/.dockerignore
+backend/.gcloudignore
+backend/test_*.py
+backend/update_dashboard_labels.py
+backend/data/labeled/
+backend/data/unlabeled/
+backend/data/models/burnout_v3_*
+backend/data/models/burnout_v4_*
+backend/data/models/best_model.pkl
+backend/data/models/all_model_results.csv
+backend/data/models/results.csv
+
+# Secrets
+.env*
+*.pem
+*.key
+*service-account*.json
+*credentials*.json

@@ -1,0 +1,55 @@
+# .gcloudignore
+.gcloudignore
+.git/
+.gitignore
+
+# Virtual environments (MUST NOT be uploaded to Cloud Build)
+.venv/
+venv/
+env/
+ENV/
+Lib/
+Scripts/
+pyvenv.cfg
+
+# Python cache & temp
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Frontend (Backend Cloud Build does not need frontend assets)
+frontend/
+node_modules/
+dist/
+
+# Raw training datasets & notebooks (heavy files not needed at runtime)
+ml_pipeline/
+notebooks/
+legacy_ui/
+backend/data/labeled/
+backend/data/unlabeled/
+backend/data/models/burnout_v3_*
+backend/data/models/burnout_v4_*
+backend/data/models/best_model.pkl
+backend/data/models/all_model_results.csv
+backend/data/models/results.csv
+backend/test_*.py
+backend/update_dashboard_labels.py
+
+# Secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*service-account*.json
+*credentials*.json
+
+# Documents & logs
+*.docx
+*.log
+logs/
+scratch/
+.vscode/
+.idea/

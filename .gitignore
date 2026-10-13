@@ -1,5 +1,71 @@
+# Environments & Virtualenvs
+.venv/
 venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+Lib/
+Scripts/
+pyvenv.cfg
+
+# Python artifacts
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+var/
+sdist/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Frontend dependencies & builds
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+node_modules/
+dist/
+
+# Firebase & Deployment
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+
+# Secrets, Credentials, and Environment Files
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*service-account*.json
+*credentials*.json
+
+# Logs & Temporary files
+*.log
+logs/
+scratch/
+*.tmp
+*.temp
+
+# Documents & OS artifacts
+*.docx
 .DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE & Editor configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
