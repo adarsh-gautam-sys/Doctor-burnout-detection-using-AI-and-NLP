@@ -15,15 +15,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install non-torch Python dependencies
-COPY requirements-no-torch.txt .
-RUN pip install --no-cache-dir -r requirements-no-torch.txt
-
-# Install CPU-only PyTorch & Torchvision (saves ~2GB container size)
+# STEP 1: Install CPU-only PyTorch FIRST
+# This satisfies the torch dependency for easyocr and timm so pip NEVER downloads 2.5 GB of CUDA packages
 RUN pip install --no-cache-dir \
     torch==2.6.0+cpu \
     torchvision==0.21.0+cpu \
     --index-url https://download.pytorch.org/whl/cpu
+
+# STEP 2: Install remaining dependencies (easyocr and timm will recognize torch is already present)
+COPY requirements-no-torch.txt .
+RUN pip install --no-cache-dir -r requirements-no-torch.txt
 
 # Copy application entrypoint
 COPY predict.py .
